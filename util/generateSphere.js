@@ -1,4 +1,4 @@
-const vD = 30;
+const vD = 50;
 const hD = 2 * vD;
 let res = [];
 let queue = [[0, 0, 1]];
@@ -43,7 +43,7 @@ for (let i = 1; i < vD; i++) {
 }
 const phi = ((vD - 1) / vD) * Math.PI;
 for (let j = 0; j < hD; j++) {
-  const theta = (j / hD) * 2 * Math.PI;
+  const theta = bias + (j / hD) * 2 * Math.PI;
   res.push([
     toRect(theta, phi),
     diff(toRect(bias + ((j + 1) / hD) * 2 * Math.PI, phi), toRect(theta, phi)),

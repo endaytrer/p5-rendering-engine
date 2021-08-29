@@ -2,7 +2,7 @@ import P5 from 'p5';
 import { Camera } from './Camera';
 import { Mesh } from './Mesh';
 import { Cube, Sphere } from './MeshObject';
-import { PointLight, SpotLight } from './PointLight';
+import { PointLight } from './PointLight';
 import './style.css';
 const extraMeshes: number[][][] = [
   [
@@ -21,8 +21,51 @@ const sketch = (p5: P5) => {
   const meshes: Mesh[] = [];
   const lights: PointLight[] = [];
   const meshObjects = [
-    Cube(16, [50, 50, 20], [0.5, 0.5, 0.5], true, [0.5, 0.5, 0.5]),
-    Sphere(11, [70, 30, 10]),
+    Cube(
+      40,
+      [50, 165, 0],
+      [0.1, 0.1, 0.1],
+      false,
+      [0, 0, 0],
+      true,
+      [0.9, 0.9, 0.9]
+    ),
+    Cube(
+      40,
+      [50, 95, 0],
+      [0.1, 0.1, 0.1],
+      false,
+      [0, 0, 0],
+      true,
+      [0.9, 0.9, 0.9]
+    ),
+    Cube(
+      15,
+      [100, 161, 0],
+      [0.7, 0.2, 0.1],
+      false,
+      [0, 0, 0],
+      true,
+      [0.9, 0.8, 0.3]
+    ),
+    Cube(
+      15,
+      [100, 124, 0],
+      [0.1, 0.2, 0.7],
+      false,
+      [0, 0, 0],
+      true,
+      [0.3, 0.8, 0.9]
+    ),
+    Sphere(
+      11,
+      [70, 150, 20],
+      [0.2, 0.1, 0.1],
+      true,
+      [0.6, 0.9, 0.7],
+      false,
+      [0.2, 0.2, 0.2]
+    ),
   ];
   let observer: Camera;
 
@@ -46,40 +89,28 @@ const sketch = (p5: P5) => {
       );
     }
     meshes.push(...meshObjects.flatMap((val) => val.toMeshesList(p5)));
-    const theta = (Math.PI * 7) / 6;
-    const phi = (Math.PI * 3) / 4;
-    lights.push(
-      new SpotLight(
-        8000000,
-        p5.createVector(120, 60, 120),
-        p5.createVector(
-          Math.cos(theta) * Math.sin(phi),
-          Math.sin(theta) * Math.sin(phi),
-          Math.cos(phi)
-        ),
-        0.4,
-        3000
-      )
-    );
-    lights.push(new PointLight(1200000, p5.createVector(100, 150, 90), 12000));
-    observer = new Camera(p5, p5.createVector(75, 120, 50), 4.5, 2, true, 0.5);
+    lights.push(new PointLight(5000000, p5.createVector(-80, 150, 180), 4000));
+    lights.push(new PointLight(5000000, p5.createVector(90, 150, 250), 4000));
+    // lights.push(new PointLight(300000, p5.createVector(70, 160, 50), 12000));
+    lights.push(new PointLight(120000, p5.createVector(70, 150, 17), 6600));
+    observer = new Camera(p5, p5.createVector(130, 150, 1), Math.PI, 1.32);
     p5.background(0);
   };
 
   p5.draw = () => {
     observer.update(meshes, lights, getKey);
     observer.draw();
-    p5.fill(0);
-    p5.stroke(50);
-    p5.strokeWeight(4);
-    p5.rect(0, 0, 150, 150);
-    for (let light of lights) {
-      light.draw(p5);
-    }
-    for (let meshObject of meshObjects) {
-      meshObject.draw(p5);
-    }
-    observer.drawGraph();
+    // p5.fill(0);
+    // p5.stroke(50);
+    // p5.strokeWeight(4);
+    // p5.rect(0, 0, 150, 150);
+    // for (let light of lights) {
+    // light.draw(p5);
+    // }
+    // for (let meshObject of meshObjects) {
+    //   meshObject.draw(p5);
+    // }
+    // observer.drawGraph();
   };
   p5.keyPressed = () => {
     if (!keyStack.find((value) => value === p5.keyCode)) {

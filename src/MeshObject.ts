@@ -4,19 +4,25 @@ import sphereMesh from './spheremesh';
 export class MeshObject {
   public pos: number[];
   public meshes: number[][][] = [];
-  public reflectRate: number[];
-  public isTransparent: boolean;
-  public transparentRate: number[];
+  public reflectRate: number[] | undefined;
+  public isTransparent: boolean | undefined;
+  public transparentRate: number[] | undefined;
+  public isMirror: boolean | undefined;
+  public mirroringRate: number[] | undefined;
   constructor(
     pos: number[],
-    reflectRate = [1, 1, 1],
-    isTransparent = false,
-    transparentRate = [0, 0, 0]
+    reflectRate?: number[],
+    isTransparent?: boolean,
+    transparentRate?: number[],
+    isMirror?: boolean,
+    mirroringRate?: number[]
   ) {
     this.pos = pos;
     this.reflectRate = reflectRate;
     this.isTransparent = isTransparent;
     this.transparentRate = transparentRate;
+    this.isMirror = isMirror;
+    this.mirroringRate = mirroringRate;
   }
   addMesh(pos: number[], edge1: number[], edge2: number[]): void {
     this.meshes.push([pos, edge1, edge2]);
@@ -39,7 +45,9 @@ export class MeshObject {
           p5.createVector(mesh[2][0], mesh[2][1], mesh[2][2]),
           this.reflectRate,
           this.isTransparent,
-          this.transparentRate
+          this.transparentRate,
+          this.isMirror,
+          this.mirroringRate
         )
       );
     }
@@ -49,15 +57,19 @@ export class MeshObject {
 export function Cube(
   width: number,
   pos: number[],
-  reflectingRate?: number[],
+  reflectRate?: number[],
   isTransparent?: boolean,
-  transparentRate?: number[]
+  transparentRate?: number[],
+  isMirror?: boolean,
+  mirroringRate?: number[]
 ): MeshObject {
   const ans = new MeshObject(
     pos,
-    reflectingRate,
+    reflectRate,
     isTransparent,
-    transparentRate
+    transparentRate,
+    isMirror,
+    mirroringRate
   );
   [
     [
@@ -126,15 +138,19 @@ export function Cube(
 export function Sphere(
   radius: number,
   pos: number[],
-  reflectingRate?: number[],
+  reflectRate?: number[],
   isTransparent?: boolean,
-  transparentRate?: number[]
+  transparentRate?: number[],
+  isMirror?: boolean,
+  mirroringRate?: number[]
 ) {
   const ans = new MeshObject(
     pos,
-    reflectingRate,
+    reflectRate,
     isTransparent,
-    transparentRate
+    transparentRate,
+    isMirror,
+    mirroringRate
   );
   sphereMesh.forEach((mesh) =>
     ans.addMesh(
