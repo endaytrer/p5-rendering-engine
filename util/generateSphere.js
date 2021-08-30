@@ -1,4 +1,4 @@
-const vD = 50;
+const vD = 30;
 const hD = 2 * vD;
 let res = [];
 let queue = [[0, 0, 1]];
